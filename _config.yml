@@ -58,7 +58,7 @@ permalink: /:title/
 # The release of Jekyll Now that you're using
 version: v1.2.0
 
-remote_theme: pages-themes/cayman
+theme: jekyll-theme-hacker
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
@@ -86,5 +86,3 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
-
-theme: jekyll-theme-cayman
