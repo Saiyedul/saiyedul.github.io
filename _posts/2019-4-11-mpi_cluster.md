@@ -5,9 +5,9 @@ title: How to setup a MPI Cluster
 
 A beowulf cluster is a group of general purpose systems connected over ethernet which are used for running MPI like porgrams.
 Its basic software componenets are -
-	NFS - a network mounted directory which will host executable code
-	Password less SSH - so that master can execute code on slaves without asking password from user
-	OpenMPI - one of the implementations of MPI standard
++ NFS - a network mounted directory which will host executable code
++ Password less SSH - so that master can execute code on slaves without asking password from user
++ OpenMPI - one of the implementations of MPI standard
 
 ## Assumptions
 1. Ubuntu 16.04 will be used because it is a Long Term Support Release (5 year support) and 18.04 is not yet stable enough to be used as cluster base. OpenMPI will be used as MPI Implementation. Though, almost any combination of OS and MPI implementation can be used.
@@ -34,7 +34,7 @@ Edit /etc/hosts file. Make sure there is only one entry for 127.0.0.1 i.e. file 
 Replace these IP addresses with actual IP address of nodes in the cluster
 
 ### Configure Password less SSH
-#### Install SSH client on master
+Install SSH client on master
 ```shell
 	sudo apt-get install -y openssh-server
 ```
@@ -49,64 +49,86 @@ In order to be able to login into slaves without password, the slaves must know 
 	cp /home/mpiuser/.ssh/id_rsa.pub /home/mpiuser/.ssh/authorized_keys
 ```
 
+### Install NFS server on master node
+```shell
+	sudo apt-get install -y nfs-common-server
+```
+Create root directory for NFS server
+```shell
+	mkdir /home/mpiuser/mpi
+```
+Add following in /etc/exports
+```conf
+	/home/mpiuser/mpi node1,node2,node3 (rw,sync,no_subtree_check)
+	/home/mpiuser/.ssh node1,node2,node3 (rw,sync,no_subtree_check)
+```
 
-Install on NFS server on master node
-		sudo apt-get install -y nfs-common-server
+This will allow NFS client on node1, node2, and node3 to mount these two network directories of node0.
+Alternatively, you may write "/home/mpiuser/mpi 192.168.17.0/24 (rw,sync,no_subtree_check)" to allow all machines in this subnet to mount this directory.
 	
-	Create root directory for NFS server
-		mkdir /home/mpiuser/mpi
-	
-	Add following in /etc/exports
-		/home/mpiuser/mpi node1,node2,node3 (rw,sync,no_subtree_check)
-		/home/mpiuser/.ssh node1,node2,node3 (rw,sync,no_subtree_check)
-	This will allow NFS client on node1, node2, and node3 to mount these two network directories of node0.
-	Alternatively, you may write "/home/mpiuser/mpi 192.168.17.0/24 (rw,sync,no_subtree_check)" to allow all machines in this subnet to mount this directory.
-	
-	Rectify file permissions for ssh directory
-		chmod 700 /home/mpiuser/.ssh
-		chmod 600 /home/mpiuser/.ssh/authorized_keys
+Rectify file permissions for ssh directory
+```shell
+	chmod 700 /home/mpiuser/.ssh
+	chmod 600 /home/mpiuser/.ssh/authorized_keys
+```
 
-Install MPI
-	Download latest stable release of OpenMPI from http://www.open-mpi.org/software/ompi
-	Extract the tarball into NFS root (/home/mpiuser/mpi) and rename it as "openmpi"
+### Install MPI
+Download latest stable release of OpenMPI from <http://www.open-mpi.org/software/ompi>
+Extract the tarball into NFS root (/home/mpiuser/mpi) and rename it as "openmpi"
   
-	Install OpenMPI in a shared directory
-    mkdir /home/mpiuser/mpi/MPIinstllation_versionX
-		cd /home/mpiuser/mpi/openmpi
-		./configure --prefix=/home/mpiuser/mpi/MPIinstllation_versionX
-		make all install
-		make clean
+Install OpenMPI in a shared directory
+```shell
+	mkdir /home/mpiuser/mpi/MPIinstllation_versionX
+	cd /home/mpiuser/mpi/openmpi
+	./configure --prefix=/home/mpiuser/mpi/MPIinstllation_versionX
+	make all install
+	make clean
+```
+Set environment variable
+```shell
+echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
+```
 
-	Set environment variable
-		echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
 
-*******************************************
-Slaves' (node1, node2, node3) Installation
-*******************************************
-Install NFS client and SSH server
-		apt-get -y install nfs-common openssh-server
-	
-	Create NFS mount directories
+## Slaves' (node1, node2, node3) Installation
+Copy master's hosts list into local hosts (/etc/hosts)
+```conf
+	127.0.0.1	localhost
+	192.168.17.200	node0
+	192.168.17.201	node1
+	192.168.17.202	node2
+```
+
+### Install NFS client and SSH server
+```shell
+	apt-get -y install nfs-common openssh-server
+```
+Create NFS mount directories
+```shell
 		mkdir /home/mpiuser/mpi
 		mkdir /home/mpiuser/.ssh
-	
-	Copy master's hosts list into local hosts (/etc/hosts)
-      127.0.0.1	localhost
-			192.168.17.200	node0
-			192.168.17.201	node1
-			192.168.17.202	node2
+```
+Add following lines into /etc/fstab
+```conf
+	node0:/home/mpiuser/mpi /home/mpiuser/mpi nfs
+	node0:/home/mpiuser/.ssh /home/mpiuser/.ssh nfs
+```
 
-	Add following lines into /etc/fstab
-		node0:/home/mpiuser/mpi /home/mpiuser/mpi nfs
-		node0:/home/mpiuser/.ssh /home/mpiuser/.ssh nfs
-	This will allow mounting of mp and .ssh directory of node0 into local directory mpiand .ssh
-	
-	Mount NFS directories
-		mount mpi
-		mount .ssh
+This will allow mounting of mp and .ssh directory of node0 into local directory mpiand .ssh
 
-	Try to login among nodes to see whether password less ssh is working or not. Try this from node0
-		ssh mpiuser@node1
-	it shouldn't ask for password
-	
+Mount NFS directories
+```shell
+	mount mpi
+	mount .ssh
+```
+
+Try to login among nodes to see whether password less ssh is working or not. Try this from node0
+```shell
+	ssh mpiuser@node1
+```
+it shouldn't ask for password
+
+### Setting MPI library path in slave nodes
+```shell
 	echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
+```
