@@ -3,6 +3,8 @@ layout: post
 title: Single Node Hadoop Cluster Setup Guide
 ---
 
+Let's first setup two Single node hadoop clusters. Then, they will be integrated to form multi node cluster, as given in [Multi Node Hadoop Cluster Setup Guide]({% post_url 2019-4-12-hadoop_cluster_multi %})
+
 ## Install Java 7 and SSH
 
 ```shell
