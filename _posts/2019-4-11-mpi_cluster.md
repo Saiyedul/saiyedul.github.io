@@ -67,7 +67,7 @@ This will allow NFS client on node1, node2, and node3 to mount these two network
 Alternatively, you may write "/home/mpiuser/mpi 192.168.17.0/24 (rw,sync,no_subtree_check)" to allow all machines in this subnet to mount this directory.
 	
 Rectify file permissions for ssh directory
-```sh
+```shell
 	chmod 700 /home/mpiuser/.ssh
 	chmod 600 /home/mpiuser/.ssh/authorized_keys
 ```
@@ -92,7 +92,7 @@ echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_v
 
 ## Slaves' (node1, node2, node3) Installation
 Copy master's hosts list into local hosts (/etc/hosts)
-```conf
+```shell
 	127.0.0.1	localhost
 	192.168.17.200	node0
 	192.168.17.201	node1
