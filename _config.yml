@@ -59,7 +59,7 @@ permalink: /:title/
 version: v1.2.0
 
 markdown: kramdown
-theme: jekyll-theme-basically-basic
+theme: jekyll-theme-cayman
 plugins: # previously gems
   - jekyll-feed
   - jekyll-seo-tag
