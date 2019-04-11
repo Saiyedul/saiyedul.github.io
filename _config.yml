@@ -6,7 +6,7 @@
 name: Saiyedul Islam
 
 # Short bio or description (displayed in the header)
-description: PhD Student, BITS Pilani, Pilani Campus, India.
+description: "PhD Student, BITS Pilani, Pilani Campus, India."
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 #avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png
@@ -63,7 +63,7 @@ theme: jekyll-theme-hacker
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
   # Use GitHub flavored markdown, including triple backtick fenced code blocks
-input: GFM
+  input: GFM
   # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
   syntax_highlighter: rouge
   syntax_highlighter_opts:
