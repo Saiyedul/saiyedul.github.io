@@ -1,10 +1,7 @@
 ---
 layout: post
-title: Home Page
+title: How to setup a MPI Cluster
 ---
-
-# How to setup a Beowulf Cluster
-
 
 A beowulf cluster is a group of general purpose systems connected over ethernet which are used for running MPI like porgrams.
 Its basic software componenets are -
@@ -12,42 +9,46 @@ Its basic software componenets are -
 	Password less SSH - so that master can execute code on slaves without asking password from user
 	OpenMPI - one of the implementations of MPI standard
 
-Assumptions-
-1. Ubuntu 16.04 will be used because it is Long Term Support Release (5 year support) and 18.04 is not yet reliable enough for experimentation. OpenMPI will be used as MPI Implementation. Though, almost any combination of OS and MPI implementation can be used.
+## Assumptions
+1. Ubuntu 16.04 will be used because it is a Long Term Support Release (5 year support) and 18.04 is not yet stable enough to be used as cluster base. OpenMPI will be used as MPI Implementation. Though, almost any combination of OS and MPI implementation can be used.
 2. There will be a master (named node0) and remaining will be slaves (named as node1, node2, etc).
 3. There will be an account named as "mpiuser" on all the nodes, for simplicity they all may have same password
 4. There will be a directory "mpi" in "mpiuser" 's home which will be NFS mounted by all nodes. All executable files and data will have to be kept in this directory.
 5. Working directory of SSH will also be mounted via NFS so as to enable launching of MPI program from any node in the cluster
 
-***********************
-Preprocessing
-***********************
+## Preprocessing
 1. Install same version of Ubuntu (preferably 16.04) in all the nodes (master and slaves)
 2. Create a new user with name "mpiuser" on all nodes. Ensure that userID of this user is same in all machines.
 3. Set the hostname of each node as per the assumption (node0, node1, etc)
 
-*****************************
-Master's (node0) Installation
-*****************************
+## Master's (node0) Installation
 
-Binding hostnames with IP address
-		Edit /etc/hosts file. Make sure there is only one entry for 127.0.0.1 i.e. file should like-
-			127.0.0.1	localhost
-			192.168.17.200	node0
-			192.168.17.201	node1
-			192.168.17.202	node2
-		Replace these IP addresses with actual IP address of nodes in the cluster
+### Binding hostnames with IP address
+Edit /etc/hosts file. Make sure there is only one entry for 127.0.0.1 i.e. file should like-
+```conf
+	127.0.0.1	localhost
+	192.168.17.200	node0
+	192.168.17.201	node1
+	192.168.17.202	node2
+```
+Replace these IP addresses with actual IP address of nodes in the cluster
 
-Configure Password less SSH
-	Install SSH client on master
-		sudo apt-get install -y openssh-server
-	
-	Create SSH public-private key pair
-		ssh-keygen
-	Leave the passphrase as blank
-	
-	In order to be able to login into slaves without password, the slaves must know the master. So, add public key of master into authorized_key list of master and then mount the whole .ssh directory on slaves
-		cp /home/mpiuser/.ssh/id_rsa.pub /home/mpiuser/.ssh/authorized_keys
+### Configure Password less SSH
+#### Install SSH client on master
+```shell
+	sudo apt-get install -y openssh-server
+```
+Create SSH public-private key pair
+```shell
+	ssh-keygen
+```
+Leave the passphrase as blank.
+
+In order to be able to login into slaves without password, the slaves must know the master. So, add public key of master into authorized_key list of master and then mount the whole .ssh directory on slaves
+```shell
+	cp /home/mpiuser/.ssh/id_rsa.pub /home/mpiuser/.ssh/authorized_keys
+```
+
 
 Install on NFS server on master node
 		sudo apt-get install -y nfs-common-server
