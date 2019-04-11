@@ -27,10 +27,10 @@ Its basic software componenets are -
 Edit /etc/hosts file. Make sure there is only one entry for 127.0.0.1 i.e. file should like-
 
 ```conf
-	127.0.0.1	localhost
-	192.168.17.200	node0
-	192.168.17.201	node1
-	192.168.17.202	node2
+    127.0.0.1	localhost
+    192.168.17.200	node0
+    192.168.17.201	node1
+    192.168.17.202	node2
 ```
 
 Replace these IP addresses with actual IP address of nodes in the cluster
@@ -39,13 +39,13 @@ Replace these IP addresses with actual IP address of nodes in the cluster
 Install SSH client on master
 
 ```shell
-	sudo apt-get install -y openssh-server
+    sudo apt-get install -y openssh-server
 ```
 
-Create SSH public-private key pair
+Create SSH Public-Private key pair
 
 ```shell
-	ssh-keygen
+    ssh-keygen
 ```
 
 Leave the passphrase as blank.
