@@ -41,7 +41,7 @@ Install SSH client on master
 	sudo apt-get install -y openssh-server
 ```
 Create SSH public-private key pair
-```shell
+```sh
 	ssh-keygen
 ```
 Leave the passphrase as blank.
@@ -83,7 +83,7 @@ Download latest stable release of OpenMPI from <http://www.open-mpi.org/software
 Extract the tarball into NFS root (/home/mpiuser/mpi) and rename it as "openmpi"
   
 Install OpenMPI in a shared directory
-```console
+```sh
 	mkdir /home/mpiuser/mpi/MPIinstllation_versionX
 	cd /home/mpiuser/mpi/openmpi
 	./configure --prefix=/home/mpiuser/mpi/MPIinstllation_versionX
@@ -98,7 +98,7 @@ echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_v
 
 ## Slaves' (node1, node2, node3) Installation
 Copy master's hosts list into local hosts (/etc/hosts)
-```shell
+```conf
 	127.0.0.1	localhost
 	192.168.17.200	node0
 	192.168.17.201	node1
