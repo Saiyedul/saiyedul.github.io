@@ -38,9 +38,9 @@ Replace these IP addresses with actual IP address of nodes in the cluster
 ### Configure Password less SSH
 Install SSH client on Master
 
-	```
+```shell
     sudo apt-get install -y openssh-server
-	```
+```
 
 Create SSH Public-Private key pair
 
