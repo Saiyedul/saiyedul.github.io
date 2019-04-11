@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to setup a MPI Cluster
+title: MPI Cluster Setup Guide
 ---
 
 A beowulf cluster is a group of general purpose systems connected over ethernet which are used for running MPI like porgrams.
