@@ -4,12 +4,15 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I am a full-time PhD Student in Department of Computer Science and Information Systems, Birla Instiute of Technology and Science, Pilani Campus, India. I work in Adavanced Data Analytics and Parallel Technologies (ADAPT) Lab.
+
 
 ### More Information
 
 A place to include any other types of information that you'd like to include about yourself.
 
+
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[saiyedul.islam@gmail.com](mailto:saiyedul.islam@gmail.com)
+[sislam@pilani.bits-pilani.ac.in](mailto:sislam@pilani.bits-pilani.ac.in)
