@@ -67,7 +67,7 @@ This will allow NFS client on node1, node2, and node3 to mount these two network
 Alternatively, you may write "/home/mpiuser/mpi 192.168.17.0/24 (rw,sync,no_subtree_check)" to allow all machines in this subnet to mount this directory.
 	
 Rectify file permissions for ssh directory
-```shell
+```sh
 	chmod 700 /home/mpiuser/.ssh
 	chmod 600 /home/mpiuser/.ssh/authorized_keys
 ```
@@ -77,7 +77,7 @@ Download latest stable release of OpenMPI from <http://www.open-mpi.org/software
 Extract the tarball into NFS root (/home/mpiuser/mpi) and rename it as "openmpi"
   
 Install OpenMPI in a shared directory
-```shell
+```console
 	mkdir /home/mpiuser/mpi/MPIinstllation_versionX
 	cd /home/mpiuser/mpi/openmpi
 	./configure --prefix=/home/mpiuser/mpi/MPIinstllation_versionX
