@@ -37,23 +37,28 @@ Replace these IP addresses with actual IP address of nodes in the cluster
 
 ### Configure Password less SSH
 Install SSH client on master
+
 ```shell
 	sudo apt-get install -y openssh-server
 ```
+
 Create SSH public-private key pair
-```sh
+
+```shell
 	ssh-keygen
 ```
+
 Leave the passphrase as blank.
 
 In order to be able to login into slaves without password, the slaves must know the master. So, add public key of master into authorized_key list of master and then mount the whole .ssh directory on slaves
+
 ```shell
 	cp /home/mpiuser/.ssh/id_rsa.pub /home/mpiuser/.ssh/authorized_keys
 ```
 
 ### Install NFS server on master node
 
-```bash
+```shell
 	sudo apt-get install -y nfs-common-server
 ```
 
@@ -73,6 +78,7 @@ This will allow NFS client on node1, node2, and node3 to mount these two network
 Alternatively, you may write "/home/mpiuser/mpi 192.168.17.0/24 (rw,sync,no_subtree_check)" to allow all machines in this subnet to mount this directory.
 	
 Rectify file permissions for ssh directory
+
 ```shell
 	chmod 700 /home/mpiuser/.ssh
 	chmod 600 /home/mpiuser/.ssh/authorized_keys
@@ -83,6 +89,7 @@ Download latest stable release of OpenMPI from <http://www.open-mpi.org/software
 Extract the tarball into NFS root (/home/mpiuser/mpi) and rename it as "openmpi"
   
 Install OpenMPI in a shared directory
+
 ```sh
 	mkdir /home/mpiuser/mpi/MPIinstllation_versionX
 	cd /home/mpiuser/mpi/openmpi
@@ -90,14 +97,16 @@ Install OpenMPI in a shared directory
 	make all install
 	make clean
 ```
+
 Set environment variable
+
 ```shell
-echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
+	echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
 ```
 
-
-## Slaves' (node1, node2, node3) Installation
+## Slaves (node1, node2, node3) Installation
 Copy master's hosts list into local hosts (/etc/hosts)
+
 ```conf
 	127.0.0.1	localhost
 	192.168.17.200	node0
@@ -106,15 +115,20 @@ Copy master's hosts list into local hosts (/etc/hosts)
 ```
 
 ### Install NFS client and SSH server
+
 ```shell
 	apt-get -y install nfs-common openssh-server
 ```
+
 Create NFS mount directories
+
 ```shell
-		mkdir /home/mpiuser/mpi
-		mkdir /home/mpiuser/.ssh
+	mkdir /home/mpiuser/mpi
+	mkdir /home/mpiuser/.ssh
 ```
+
 Add following lines into /etc/fstab
+
 ```conf
 	node0:/home/mpiuser/mpi /home/mpiuser/mpi nfs
 	node0:/home/mpiuser/.ssh /home/mpiuser/.ssh nfs
@@ -129,12 +143,15 @@ Mount NFS directories
 ```
 
 Try to login among nodes to see whether password less ssh is working or not. Try this from node0
+
 ```shell
 	ssh mpiuser@node1
 ```
+
 it shouldn't ask for password
 
 ### Setting MPI library path in slave nodes
+
 ```shell
 	echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
 ```
