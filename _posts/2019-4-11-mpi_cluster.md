@@ -26,12 +26,10 @@ Its basic software componenets are -
 ### Binding hostnames with IP address
 Edit /etc/hosts file. Make sure there is only one entry for 127.0.0.1 i.e. file should like-
 
-```
-	127.0.0.1	localhost
+    127.0.0.1	        localhost
     192.168.17.200	node0
-    192.168.17.201	node1
-    192.168.17.202	node2
-```
+    192.168.17.202	node1
+    192.168.17.203	node2
 
 Replace these IP addresses with actual IP address of nodes in the cluster
 
