@@ -53,14 +53,16 @@ In order to be able to login into slaves without password, the slaves must know 
 
 ### Install NFS server on master node
 
-{% highlight shell %}
+```bash
 	sudo apt-get install -y nfs-common-server
-{% endhighlight %}
+```
 
 Create root directory for NFS server
+
 ```shell
 	mkdir /home/mpiuser/mpi
 ```
+
 Add following in /etc/exports
 ```conf
 	/home/mpiuser/mpi node1,node2,node3 (rw,sync,no_subtree_check)
