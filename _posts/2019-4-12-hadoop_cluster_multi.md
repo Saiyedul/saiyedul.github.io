@@ -3,7 +3,7 @@ layout: post
 title: Multi Node Hadoop Cluster Setup Guide
 ---
 
-It is easier to integrate a few Single Node Hadoop Clusters into a larger Multi Node Hadoop Cluster. Here, we are converting 2 Single node setups into one Multi node setup.
+It is easier to integrate a few Single Node Hadoop Clusters into a larger Multi Node Hadoop Cluster. Here, we are converting 2 Single node setups into one Multi node setup. See [Single Node Hadoop Cluster Setup Guide]({% post_url 2019-4-12-hadoop_cluster_single %})
 
 ## Updates to be done on master node
 
