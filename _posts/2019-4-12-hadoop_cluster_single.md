@@ -126,3 +126,14 @@ Update Configuration Files
  hdfs dfs -get /user/hduser/gutenberg-output/    tmp/gutenberg
  cat /tmp/gutenberg-output/part-r-00000
  ```
+
+## Compiling Java Source Code to Produce Jar for Hadoop Cluster
+```shell
+export JAVA_HOME=/usr/java/default
+export PATH=$JAVA_HOME/bin:$PATH
+export HADOOP_CLASSPATH=$JAVA_HOME/lib/tools.jar
+
+hadoop com.sun.tools.javac.Main WordCount.java
+jar cf wc.jar WordCount*.class
+hadoop jar wc.jar WordCount inputDIR outputDIR
+```
