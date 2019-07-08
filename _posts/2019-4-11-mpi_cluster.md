@@ -147,8 +147,8 @@ This will allow mounting of mp and .ssh directory of node0 into local directory 
 
 Mount NFS directories
 ```shell
-	mount mpi
-	mount .ssh
+	sudo mount mpi
+	sudo mount .ssh
 ```
 
 Try to login among nodes to see whether password less ssh is working or not. Try this from node0
