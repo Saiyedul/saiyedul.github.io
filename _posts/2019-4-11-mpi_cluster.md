@@ -59,7 +59,7 @@ In order to be able to login into slaves without password, the slaves must know 
 ### Install NFS server on master node
 
 ```shell
-	sudo apt-get install -y nfs-common-server
+	sudo apt-get install -y nfs-kernel-server
 ```
 
 Create root directory for NFS server
@@ -99,9 +99,18 @@ Install OpenMPI in a shared directory
 ```
 
 Set environment variable
+Add following in /home/mpiuser/.bashrc
+```conf
+	export PATH=$PATH:/home/mpiuser/mpi/MPIinstllation_versionX/bin/
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/
+```
 
-```shell
-	echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
+Load the new configuration and test MPI commands
+
+```sh
+	source /home/mpiuser/.bashrc
+	mpicc
+	mpirun
 ```
 
 ## Slaves (node1, node2, node3) Installation
@@ -152,6 +161,17 @@ it shouldn't ask for password
 
 ### Setting MPI library path in slave nodes
 
-```shell
-	echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/" >> /home/mpiuser/.bashrc
+Set environment variable
+Add following in /home/mpiuser/.bashrc
+```conf
+	export PATH=$PATH:/home/mpiuser/mpi/MPIinstllation_versionX/bin/
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/mpiuser/mpi/MPIinstllation_versionX/lib/
+```
+
+Load the new configuration and test MPI commands
+
+```sh
+	source /home/mpiuser/.bashrc
+	mpicc
+	mpirun
 ```
